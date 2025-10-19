@@ -1,6 +1,12 @@
+# Folders
 node_modules/
-package.json
-package-lock.json
-.env
 logs/
 
+# Files
+package.json
+package-lock.json
+
+# Common extras
+.env
+.DS_Store
+*.log
