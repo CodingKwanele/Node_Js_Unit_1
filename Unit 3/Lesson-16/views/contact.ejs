@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Subscribe</title>
+</head>
+<body>
+  <h1>Subscribe</h1>
+
+  <% const e = (errors || {}); const v = (values || {}); %>
+
+  <form action="/subscribe" method="POST" novalidate>
+    <div>
+      <label for="name">Name</label><br />
+      <input
+        id="name"
+        name="name"
+        type="text"
+        placeholder="Your name"
+        value="<%= v.name || '' %>"
+        required
+        minlength="2"
+        maxlength="60"
+        pattern="[A-Za-z\s'.-]+"
+      />
+      <% if (e.name) { %><div role="alert"><small><%= e.name %></small></div><% } %>
+    </div>
+
+    <div>
+      <label for="email">Email</label><br />
+      <input
+        id="email"
+        name="email"
+        type="email"
+        placeholder="you@example.com"
+        value="<%= v.email || '' %>"
+        required
+      />
+      <% if (e.email) { %><div role="alert"><small><%= e.email %></small></div><% } %>
+    </div>
+
+    <div>
+      <label for="zipCode">Zip Code (optional)</label><br />
+      <input
+        id="zipCode"
+        name="zipCode"
+        type="text"
+        placeholder="5-digit ZIP"
+        value="<%= v.zipCode || '' %>"
+        pattern="\d{5}"
+        inputmode="numeric"
+      />
+      <% if (e.zipCode) { %><div role="alert"><small><%= e.zipCode %></small></div><% } %>
+    </div>
+
+    <button type="submit">Subscribe</button>
+  </form>
+
+  <p><a href="/subscribers">View subscribers</a></p>
+</body>
+</html>

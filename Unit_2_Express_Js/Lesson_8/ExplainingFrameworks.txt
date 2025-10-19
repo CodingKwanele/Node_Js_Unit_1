@@ -1,0 +1,5 @@
+Author : Kwanele Dladla 
+
+Web Framework is designed to do a lot of tasks that are tedious behind the scene leaving you with the ability to 
+build your application without expriencing problems 
+

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>ITSM Service Request Form</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2rem; }
+    form { max-width: 800px; }
+    fieldset { margin-bottom: 1.5rem; padding: 1rem; border: 1px solid #ccc; border-radius: 4px; }
+    legend { font-weight: bold; }
+    label { display: block; margin-top: 0.75rem; }
+    input, select, textarea { width: 100%; padding: 0.5rem; margin-top: 0.25rem; border: 1px solid #aaa; border-radius: 4px; box-sizing: border-box; }
+    button { padding: 0.75rem 1.5rem; border: none; background-color: #0070d2; color: white; font-size: 1rem; border-radius: 4px; cursor: pointer; }
+    button:disabled { background-color: #888; }
+  </style>
+</head>
+<body>
+  <h1>Log a Service Request</h1>
+  <form id="servicereq-form" method="post" action="/api/servicerequests">
+    <fieldset>
+      <legend>Requester Details</legend>
+      <label for="requester-name">Name</label>
+      <input type="text" id="requester-name" name="requesterName" placeholder="e.g. Jane Doe" required>
+      <label for="requester-email">Email</label>
+      <input type="email" id="requester-email" name="requesterEmail" placeholder="e.g. jane.doe@example.com" required>
+      <label for="requester-phone">Phone Number</label>
+      <input type="tel" id="requester-phone" name="requesterPhone" placeholder="e.g. +27 11 123 4567">
+    </fieldset>
+    <fieldset>
+      <legend>Request Details</legend>
+      <label for="request-title">Short Description</label>
+      <input type="text" id="request-title" name="title" placeholder="Brief summary of your request" required>
+      <label for="request-category">Category</label>
+      <select id="request-category" name="category" required>
+        <option value="" disabled selected>Select a category</option>
+        <option value="hardware">Hardware</option>
+        <option value="software">Software</option>
+        <option value="network">Network</option>
+        <option value="access">Access / Permissions</option>
+        <option value="other">Other</option>
+      </select>
+      <label for="request-priority">Priority</label>
+      <select id="request-priority" name="priority" required>
+        <option value="" disabled selected>Select priority</option>
+        <option value="low">Low</option>
+        <option value="medium">Medium</option>
+        <option value="high">High</option>
+        <option value="urgent">Urgent</option>
+      </select>
+      <label for="request-description">Detailed Description</label>
+      <textarea id="request-description" name="description" rows="6" placeholder="Provide all relevant details" required></textarea>
+      <label for="attachment">Attachment (optional)</label>
+      <input type="file" id="attachment" name="attachment" accept=".png,.jpg,.pdf,.docx">
+    </fieldset>
+    <fieldset>
+      <legend>Optional Settings</legend>
+      <label for="due-date">Desired Completion Date</label>
+      <input type="date" id="due-date" name="dueDate">
+      <label><input type="checkbox" id="notify-on-update" name="notifyOnUpdate"> Notify me of status updates by email</label>
+    </fieldset>
+    <button type="submit" disabled>Submit Request</button>
+  </form>
+  <script>
+    const form = document.getElementById('servicereq-form');
+    const btn = form.querySelector('button');
+    form.addEventListener('input', () => btn.disabled = !form.checkValidity());
+  </script>
+</body>
+</html>

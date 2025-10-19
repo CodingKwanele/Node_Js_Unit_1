@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Subscribe to My Recipe Web newsletter">
+    <title>Subscribe — My Recipe Web</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <header>
+        <div class="container">
+            <h1 class="site-title">My Recipe Web</h1>
+            <nav aria-label="Main navigation">
+                <ul class="nav">
+                    <li><a href="/home">Home</a></li>
+                    <li><a href="/about">About</a></li>
+                    <li><a href="/subscribers">Subscribers</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main id="main-content">
+        <div class="container" style="max-width: 600px; margin-top: 3rem;">
+            <h2>Subscribe to Our Newsletter</h2>
+            <p style="color: var(--gray); margin-bottom: 2rem;">
+                Join our community and get recipes, cooking tips, and updates delivered to your inbox.
+            </p>
+
+            <% const e = (errors || {}); const v = (values || {}); %>
+
+            <form action="/subscribe" method="POST" novalidate style="background: white; padding: 2rem; border-radius: var(--radius); box-shadow: var(--shadow);">
+                <div style="margin-bottom: 1.5rem;">
+                    <label for="name" style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: var(--dark);">
+                        Name <span style="color: var(--primary);">*</span>
+                    </label>
+                    <input
+                        id="name"
+                        name="name"
+                        type="text"
+                        placeholder="Your name"
+                        value="<%= v.name || '' %>"
+                        required
+                        minlength="2"
+                        maxlength="60"
+                        pattern="[A-Za-z\s'.-]+"
+                        style="width: 100%; padding: 0.75rem; border: 2px solid var(--gray-light); border-radius: 8px; font-size: 1rem; font-family: inherit;"
+                    />
+                    <% if (e.name) { %>
+                        <div role="alert" style="color: var(--primary); font-size: 0.875rem; margin-top: 0.5rem;">
+                            <small><%= e.name %></small>
+                        </div>
+                    <% } %>
+                </div>
+
+                <div style="margin-bottom: 1.5rem;">
+                    <label for="email" style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: var(--dark);">
+                        Email <span style="color: var(--primary);">*</span>
+                    </label>
+                    <input
+                        id="email"
+                        name="email"
+                        type="email"
+                        placeholder="you@example.com"
+                        value="<%= v.email || '' %>"
+                        required
+                        style="width: 100%; padding: 0.75rem; border: 2px solid var(--gray-light); border-radius: 8px; font-size: 1rem; font-family: inherit;"
+                    />
+                    <% if (e.email) { %>
+                        <div role="alert" style="color: var(--primary); font-size: 0.875rem; margin-top: 0.5rem;">
+                            <small><%= e.email %></small>
+                        </div>
+                    <% } %>
+                </div>
+
+                <div style="margin-bottom: 2rem;">
+                    <label for="zipCode" style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: var(--dark);">
+                        Zip Code <span style="color: var(--gray); font-weight: 400; font-size: 0.875rem;">(optional)</span>
+                    </label>
+                    <input
+                        id="zipCode"
+                        name="zipCode"
+                        type="text"
+                        placeholder="5-digit ZIP"
+                        value="<%= v.zipCode || '' %>"
+                        pattern="\d{5}"
+                        inputmode="numeric"
+                        style="width: 100%; padding: 0.75rem; border: 2px solid var(--gray-light); border-radius: 8px; font-size: 1rem; font-family: inherit;"
+                    />
+                    <% if (e.zipCode) { %>
+                        <div role="alert" style="color: var(--primary); font-size: 0.875rem; margin-top: 0.5rem;">
+                            <small><%= e.zipCode %></small>
+                        </div>
+                    <% } %>
+                </div>
+
+                <button type="submit" class="btn">Subscribe</button>
+            </form>
+
+            <p style="text-align: center; margin-top: 2rem; color: var(--gray);">
+                Already subscribed? <a href="/subscribers">View our community</a>
+            </p>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 My Recipe Web. Cook, Learn, and Share with Us.</p>
+        </div>
+    </footer>
+</body>
+</html>

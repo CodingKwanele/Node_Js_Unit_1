@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Subscribers</title>
+</head>
+<body>
+  <h1>Subscribers</h1>
+
+  <% if (!subscribers || subscribers.length === 0) { %>
+    <p>No subscribers found.</p>
+  <% } else { %>
+    <ul>
+      <% subscribers.forEach(s => { %>
+        <li>
+          <strong><%= s.name %></strong><br>
+          <a href="mailto:<%= s.email %>"><%= s.email %></a><br>
+          <% if (s.createdAt) { %>
+            <small>Joined: <%= new Date(s.createdAt).toLocaleDateString() %></small>
+          <% } %>
+        </li>
+      <% }) %>
+    </ul>
+  <% } %>
+
+  <p><a href="/contact">Add another subscriber</a></p>
+</body>
+</html>
