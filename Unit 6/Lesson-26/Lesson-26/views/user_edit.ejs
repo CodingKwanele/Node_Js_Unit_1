@@ -1,0 +1,60 @@
+<!-- views/user_edit.ejs -->
+<section class="hero">
+  <div class="container">
+    <h2>Edit User</h2>
+    <p>Update the fields below and save your changes.</p>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="card">
+      <!-- UPDATE: use method-override via ?_method=PUT -->
+      <form action="/users/<%= id %>?_method=PUT" method="POST" novalidate>
+        <div>
+          <label for="first">First Name</label><br />
+          <input id="first" name="first" type="text" value="<%= values?.first || '' %>" required />
+          <% if (errors?.first) { %><small class="field-error"><%= errors.first %></small><% } %>
+        </div>
+
+        <div>
+          <label for="last">Last Name</label><br />
+          <input id="last" name="last" type="text" value="<%= values?.last || '' %>" required />
+          <% if (errors?.last) { %><small class="field-error"><%= errors.last %></small><% } %>
+        </div>
+
+        <div>
+          <label for="email">Email</label><br />
+          <input id="email" name="email" type="email" value="<%= values?.email || '' %>" required />
+          <% if (errors?.email) { %><small class="field-error"><%= errors.email %></small><% } %>
+        </div>
+
+        <div>
+          <label for="zipCode">Zip Code (optional)</label><br />
+          <input id="zipCode" name="zipCode" type="text" value="<%= values?.zipCode || '' %>" />
+          <% if (errors?.zipCode) { %><small class="field-error"><%= errors.zipCode %></small><% } %>
+        </div>
+
+        <div>
+          <label for="password">New Password (optional)</label><br />
+          <input id="password" name="password" type="password" value="" />
+          <% if (errors?.password) { %><small class="field-error"><%= errors.password %></small><% } %>
+        </div>
+
+        <% if (errors?._general) { %>
+          <p><small class="field-error"><%= errors._general %></small></p>
+        <% } %>
+
+        <div style="margin-top: 1rem;">
+          <button type="submit" class="btn">Save Changes</button>
+          <a href="/users" class="btn">Cancel</a>
+        </div>
+      </form>
+
+      <!-- DELETE: separate form (no nesting) -->
+      <form action="/users/<%= id %>/delete" method="POST" style="margin-top: 0.75rem;">
+        <button type="submit" class="btn" onclick="return confirm('Delete this user?')">Delete</button>
+      </form>
+    </div>
+  </div>
+</section>

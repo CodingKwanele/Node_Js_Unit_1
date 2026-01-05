@@ -1,0 +1,10 @@
+<% layout('partials/layout') %>
+<h2>Users</h2>
+<table class="table">
+  <thead><tr><th>Name</th><th>Email</th><th>Joined</th></tr></thead>
+  <tbody>
+    <% users.forEach(u => { %>
+      <tr><td><%= u.name %></td><td><%= u.email %></td><td><%= new Date(u.createdAt).toLocaleDateString() %></td></tr>
+    <% }) %>
+  </tbody>
+</table>

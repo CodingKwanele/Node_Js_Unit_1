@@ -1,0 +1,23 @@
+<% layout('partials/layout') %>
+<h2>Subscribers</h2>
+<form method="post" action="/subscribers" class="form">
+  <label>Name <input name="name" required></label>
+  <label>Email <input type="email" name="email" required></label>
+  <button type="submit">Add</button>
+</form>
+<table class="table">
+  <thead><tr><th>Name</th><th>Email</th><th></th></tr></thead>
+  <tbody>
+    <% subs.forEach(s => { %>
+      <tr>
+        <td><%= s.name %></td>
+        <td><%= s.email %></td>
+        <td>
+          <form method="post" action="/subscribers/<%= s._id %>/delete">
+            <button>Delete</button>
+          </form>
+        </td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>

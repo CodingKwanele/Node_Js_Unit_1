@@ -1,0 +1,97 @@
+<!-- views/contact.ejs -->
+<% const e = (errors || {}); const v = (values || {}); %>
+
+<section class="hero">
+  <div class="container">
+    <h2>Subscribe to Our Newsletter</h2>
+    <p class="muted">
+      Join our community and get recipes, cooking tips, and updates delivered to your inbox.
+    </p>
+  </div>
+</section>
+
+<main id="main-content">
+  <div class="container" style="max-width: 600px; margin-top: 1rem;">
+    <form
+      action="/subscribers/subscribe"
+      method="POST"
+      novalidate
+      class="card"
+      style="background: white; padding: 2rem; border-radius: var(--radius); box-shadow: var(--shadow);"
+    >
+      <!-- Name -->
+      <div style="margin-bottom: 1.2rem;">
+        <label for="name" style="display:block; font-weight:600; margin-bottom:0.5rem;">
+          Name <span style="color: var(--primary);">*</span>
+        </label>
+        <input
+          id="name"
+          name="name"
+          type="text"
+          placeholder="Your name"
+          value="<%= v.name || '' %>"
+          required
+          minlength="2"
+          maxlength="60"
+          pattern="[A-Za-z\\s'.-]+"
+          style="width:100%; padding:0.75rem; border:2px solid var(--gray-light); border-radius:8px; font-size:1rem;"
+        />
+        <% if (e.name) { %>
+          <div role="alert" class="alert alert-danger" style="margin-top:0.5rem;">
+            <small><%= e.name %></small>
+          </div>
+        <% } %>
+      </div>
+
+      <!-- Email -->
+      <div style="margin-bottom: 1.2rem;">
+        <label for="email" style="display:block; font-weight:600; margin-bottom:0.5rem;">
+          Email <span style="color: var(--primary);">*</span>
+        </label>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          placeholder="you@example.com"
+          value="<%= v.email || '' %>"
+          required
+          style="width:100%; padding:0.75rem; border:2px solid var(--gray-light); border-radius:8px; font-size:1rem;"
+        />
+        <% if (e.email) { %>
+          <div role="alert" class="alert alert-danger" style="margin-top:0.5rem;">
+            <small><%= e.email %></small>
+          </div>
+        <% } %>
+      </div>
+
+      <!-- ZA Postal Code (optional) -->
+      <div style="margin-bottom: 1.6rem;">
+        <label for="zipCode" style="display:block; font-weight:600; margin-bottom:0.5rem;">
+          Postal Code
+          <span class="muted" style="font-weight:400; font-size:0.9rem;">(optional, ZA 4-digit)</span>
+        </label>
+        <input
+          id="zipCode"
+          name="zipCode"
+          type="text"
+          placeholder="e.g. 2000"
+          value="<%= v.zipCode || '' %>"
+          pattern="\\d{4}"
+          inputmode="numeric"
+          style="width:100%; padding:0.75rem; border:2px solid var(--gray-light); border-radius:8px; font-size:1rem;"
+        />
+        <% if (e.zipCode) { %>
+          <div role="alert" class="alert alert-danger" style="margin-top:0.5rem;">
+            <small><%= e.zipCode %></small>
+          </div>
+        <% } %>
+      </div>
+
+      <button type="submit" class="btn">Subscribe</button>
+    </form>
+
+    <p style="text-align:center; margin-top: 1.5rem;" class="muted">
+      Already subscribed? <a href="/subscribers">View our community</a>
+    </p>
+  </div>
+</main>

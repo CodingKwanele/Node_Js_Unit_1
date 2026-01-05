@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Manage users — My Recipe Web" />
+  <title>Users — My Recipe Web</title>
+  <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <header>
+    <div class="container">
+      <h1 class="site-title">My Recipe Web</h1>
+      <nav aria-label="Main navigation">
+        <ul class="nav">
+          <li><a href="/home">Home</a></li>
+          <li><a href="/about">About</a></li>
+          <li><a href="/subscribers">Subscribers</a></li>
+          <li><a href="/users" aria-current="page">Users</a></li>
+          <li><a href="/courses">Courses</a></li>
+          <li><a href="/contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <section class="hero" aria-labelledby="users-heading">
+      <div class="container">
+        <h2 id="users-heading">Users</h2>
+        <p>Create, view, and manage user accounts.</p>
+        <a href="/users/new" class="btn">Add New User</a>
+      </div>
+    </section>
+
+    <!-- 🔔 FLASH MESSAGES START -->
+    <section aria-live="polite" aria-atomic="true">
+      <div class="container">
+        <% if (flashMessages && flashMessages.error) { %>
+          <div class="alert alert-danger" role="alert">
+            <%= flashMessages.error %>
+          </div>
+        <% } %>
+
+        <% if (flashMessages && flashMessages.success) { %>
+          <div class="alert alert-success" role="alert">
+            <%= flashMessages.success %>
+          </div>
+        <% } %>
+      </div>
+    </section>
+    <!--  FLASH MESSAGES END -->
+
+    <section>
+      <div class="container">
+        <div class="page-header">
+          <h2 class="section-title">User List</h2>
+        </div>
+
+        <% if (users && users.length) { %>
+          <ul class="subscriber-list">
+            <% users.forEach((user, i) => { %>
+              <li class="subscriber-item">
+                <div class="subscriber-info">
+                  <strong><%= (user?.name?.first || "") + " " + (user?.name?.last || "") %></strong>
+                  <a href="mailto:<%= user.email %>"><%= user.email %></a>
+                  <small>Zip: <%= user.zipCode || "-" %></small>
+                  <small>
+                    Subscriber:
+                    <% if (user.subscriberAccount) { %>
+                       <%= user.subscriberAccount.email %>
+                    <% } else { %>
+                       None
+                    <% } %>
+                  </small>
+                  <small>
+                    Courses:
+                    <% if (user.courses && user.courses.length) { %>
+                      <%= user.courses.map(c => c.title || c).join(", ") %>
+                    <% } else { %>
+                      -
+                    <% } %>
+                  </small>
+                </div>
+
+                <div class="card" role="group" aria-label="Actions for <%= user.email %>">
+                  <a href="/users/<%= user._id %>/edit" class="btn">Edit</a>
+
+                  <form action="/users/<%= user._id %>/delete" method="POST">
+                    <button type="submit" class="btn" onclick="return confirm('Delete this user?')">Delete</button>
+                  </form>
+
+                  <form action="/users/<%= user._id %>/link-course" method="POST">
+                    <label for="course-<%= user._id %>" class="visually-hidden">Course ID</label>
+                    <input id="course-<%= user._id %>" type="text" name="courseId" placeholder="Course ID" required />
+                    <button type="submit" class="btn">+ Course</button>
+                  </form>
+
+                  <form action="/users/<%= user._id %>/link-subscriber" method="POST">
+                    <label for="sub-<%= user._id %>" class="visually-hidden">Subscriber email</label>
+                    <input id="sub-<%= user._id %>" type="email" name="email" placeholder="Subscriber email" required />
+                    <button type="submit" class="btn">+ Subscriber</button>
+                  </form>
+                </div>
+              </li>
+            <% }) %>
+          </ul>
+        <% } else { %>
+          <div class="empty-state">
+            <p>No users found.</p>
+            <a href="/users/new" class="btn">Create the first user</a>
+          </div>
+        <% } %>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 My Recipe Web. Cook, Learn, and Share with Us.</p>
+    </div>
+  </footer>
+</body>
+</html>
