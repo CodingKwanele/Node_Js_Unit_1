@@ -1,0 +1,28 @@
+<!-- Trigger -->
+<button id="modal-button" type="button"
+        class="btn btn-primary"
+        data-bs-toggle="modal"
+        data-bs-target="#myModal">
+  Latest Courses
+</button>
+
+<div id="myModal" class="modal fade" tabindex="-1"
+     aria-labelledby="latestCoursesLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content rounded-3 shadow">
+      <div class="modal-header">
+        <h5 class="modal-title" id="latestCoursesLabel">Latest Courses</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+        <p class="text-muted">Click “Latest Courses” to load data…</p>
+      </div>
+
+      <div class="modal-footer">
+        <a href="/courses" class="btn btn-outline-primary">View all</a>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

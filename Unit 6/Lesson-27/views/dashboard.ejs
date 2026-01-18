@@ -1,0 +1,26 @@
+<section class="hero">
+  <div class="container">
+    <h2>Dashboard</h2>
+    <p class="muted">Hello <%= (user && (user.fullName || user.email)) || "there" %> 👋</p>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="card">
+      <h3>Recent Courses</h3>
+      <% if (recentCourses && recentCourses.length) { %>
+        <ul>
+          <% recentCourses.forEach(c => { %>
+            <li>
+              <strong><%= c.title %></strong>
+              <small> — <%= new Date(c.createdAt).toLocaleString() %></small>
+            </li>
+          <% }) %>
+        </ul>
+      <% } else { %>
+        <p>No courses yet. <a href="/courses/new">Create one</a>.</p>
+      <% } %>
+    </div>
+  </div>
+</section>

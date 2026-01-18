@@ -1,0 +1,57 @@
+<!-- Home Page -->
+<section class="hero py-5 text-center" aria-labelledby="welcome-heading">
+  <div class="container">
+    <h2 id="welcome-heading" class="display-5 fw-semibold mb-3">
+      Welcome to My Recipe Web
+    </h2>
+    <p class="lead mb-4">
+      Share your favourite recipes, learn cooking skills, and join our community of passionate food lovers.
+    </p>
+
+    <div class="d-flex justify-content-center gap-3">
+      <a href="/subscribers/contact" class="btn btn-primary btn-lg">
+        Join Our Community
+      </a>
+      <!-- Optional: latest courses button (kept here ONLY if you want it on homepage)
+           Otherwise remove it, because you already have it in layout navigation -->
+      <%- include('courses/_coursesModalButton') %>
+    </div>
+  </div>
+</section>
+
+<section class="py-5" aria-labelledby="features-heading">
+  <div class="container">
+    <h2 id="features-heading" class="text-center mb-4 fw-semibold">
+      What We Offer
+    </h2>
+
+    <div class="row g-4">
+      <div class="col-md-4">
+        <article class="card shadow-sm h-100 lift p-4 text-center">
+          <h3 class="h5 fw-bold mb-2">Recipe Collection</h3>
+          <p>
+            Explore delicious recipes — from quick weekday meals to signature family dishes.
+          </p>
+        </article>
+      </div>
+
+      <div class="col-md-4">
+        <article class="card shadow-sm h-100 lift p-4 text-center">
+          <h3 class="h5 fw-bold mb-2">Cooking Courses</h3>
+          <p>
+            Learn step-by-step cooking skills, from beginner basics to advanced culinary techniques.
+          </p>
+        </article>
+      </div>
+
+      <div class="col-md-4">
+        <article class="card shadow-sm h-100 lift p-4 text-center">
+          <h3 class="h5 fw-bold mb-2">Video Tutorials</h3>
+          <p>
+            Subscribe to our weekly YouTube videos — recipes, chef tips, interviews, and more.
+          </p>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>

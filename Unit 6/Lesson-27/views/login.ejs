@@ -1,0 +1,212 @@
+<!-- Login Page -->
+<section class="hero py-5" aria-labelledby="signin-heading">
+  <div class="container text-center">
+    <h2 id="signin-heading" class="display-6 fw-semibold mb-2">
+      Sign in
+    </h2>
+    <p class="text-muted mb-0">
+      Welcome back. Please sign in to continue.
+    </p>
+  </div>
+</section>
+
+<section class="py-4">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6 col-lg-5">
+        <div class="card shadow-sm lift">
+          <div class="card-body p-4 p-md-5">
+            <h3 class="h5 fw-semibold mb-3 text-center">Account login</h3>
+
+            <form action="/users/login" method="POST" novalidate id="loginForm">
+              <!-- Email -->
+              <div class="mb-3">
+                <label for="email" class="form-label">
+                  Email address <span class="text-danger">*</span>
+                </label>
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  class="form-control"
+                  required
+                  placeholder="you@example.com"
+                  autocomplete="email"
+                  aria-describedby="emailError"
+                  value="<%= typeof formData !== 'undefined' ? formData.email : '' %>"
+                />
+                <div id="emailError" class="invalid-feedback">
+                  Please enter a valid email address.
+                </div>
+              </div>
+
+              <!-- Password -->
+              <div class="mb-4">
+                <label for="password" class="form-label">
+                  Password <span class="text-danger">*</span>
+                </label>
+                <div class="input-group">
+                  <input
+                    id="password"
+                    name="password"
+                    type="password"
+                    class="form-control"
+                    required
+                    placeholder="••••••••"
+                    autocomplete="current-password"
+                    aria-describedby="passwordError passwordToggle"
+                  />
+                  <button 
+                    class="btn btn-outline-secondary" 
+                    type="button" 
+                    id="passwordToggle"
+                    aria-label="Toggle password visibility"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16" id="eyeIcon">
+                      <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
+                      <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
+                    </svg>
+                  </button>
+                </div>
+                <div id="passwordError" class="invalid-feedback">
+                  Password is required.
+                </div>
+              </div>
+
+              <!-- Remember me & Forgot password -->
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <div class="form-check">
+                  <input 
+                    class="form-check-input" 
+                    type="checkbox" 
+                    id="rememberMe" 
+                    name="rememberMe"
+                  />
+                  <label class="form-check-label" for="rememberMe">
+                    Remember me
+                  </label>
+                </div>
+                <a href="/users/forgot-password" class="text-decoration-none small">
+                  Forgot password?
+                </a>
+              </div>
+
+              <!-- Submit button -->
+              <div class="d-grid gap-2 mb-3">
+                <button type="submit" class="btn btn-primary" id="submitBtn">
+                  Sign in
+                </button>
+              </div>
+
+              <!-- Sign up link -->
+              <div class="text-center">
+                <span class="text-muted">Don't have an account?</span>
+                <a href="/users/new" class="ms-1">Create account</a>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Helper text -->
+        <p class="text-center text-muted mt-3 mb-0 small">
+          Having trouble signing in? 
+          <a href="/subscribers/contact" class="text-decoration-none">Contact support</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Client-side form validation
+  (function() {
+    'use strict';
+
+    const form = document.getElementById('loginForm');
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+    const submitBtn = document.getElementById('submitBtn');
+    const passwordToggle = document.getElementById('passwordToggle');
+
+    // Password visibility toggle
+    passwordToggle.addEventListener('click', function() {
+      const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+      passwordInput.setAttribute('type', type);
+      
+      // Toggle eye icon
+      const eyeIcon = document.getElementById('eyeIcon');
+      if (type === 'text') {
+        eyeIcon.innerHTML = '<path d="M13.359 11.238C15.06 9.72 16 8 16 8s-3-5.5-8-5.5a7.028 7.028 0 0 0-2.79.588l.77.771A5.944 5.944 0 0 1 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.134 13.134 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755-.165.165-.337.328-.517.486l.708.709z"/><path d="M11.297 9.176a3.5 3.5 0 0 0-4.474-4.474l.823.823a2.5 2.5 0 0 1 2.829 2.829l.822.822zm-2.943 1.299.822.822a3.5 3.5 0 0 1-4.474-4.474l.823.823a2.5 2.5 0 0 0 2.829 2.829z"/><path d="M3.35 5.47c-.18.16-.353.322-.518.487A13.134 13.134 0 0 0 1.172 8l.195.288c.335.48.83 1.12 1.465 1.755C4.121 11.332 5.881 12.5 8 12.5c.716 0 1.39-.133 2.02-.36l.77.772A7.029 7.029 0 0 1 8 13.5C3 13.5 0 8 0 8s.939-1.721 2.641-3.238l.708.709zm10.296 8.884-12-12 .708-.708 12 12-.708.708z"/>';
+      } else {
+        eyeIcon.innerHTML = '<path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/><path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>';
+      }
+    });
+
+    // Form validation
+    form.addEventListener('submit', function(event) {
+      let isValid = true;
+
+      // Email validation
+      if (!emailInput.value.trim()) {
+        emailInput.classList.add('is-invalid');
+        isValid = false;
+      } else if (!isValidEmail(emailInput.value)) {
+        emailInput.classList.add('is-invalid');
+        document.getElementById('emailError').textContent = 'Please enter a valid email address.';
+        isValid = false;
+      } else {
+        emailInput.classList.remove('is-invalid');
+        emailInput.classList.add('is-valid');
+      }
+
+      // Password validation
+      if (!passwordInput.value) {
+        passwordInput.classList.add('is-invalid');
+        isValid = false;
+      } else {
+        passwordInput.classList.remove('is-invalid');
+        passwordInput.classList.add('is-valid');
+      }
+
+      if (!isValid) {
+        event.preventDefault();
+        event.stopPropagation();
+      } else {
+        // Disable submit button to prevent double submission
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Signing in...';
+      }
+    });
+
+    // Real-time validation feedback
+    emailInput.addEventListener('input', function() {
+      if (this.classList.contains('is-invalid') || this.classList.contains('is-valid')) {
+        if (this.value.trim() && isValidEmail(this.value)) {
+          this.classList.remove('is-invalid');
+          this.classList.add('is-valid');
+        } else {
+          this.classList.remove('is-valid');
+          this.classList.add('is-invalid');
+        }
+      }
+    });
+
+    passwordInput.addEventListener('input', function() {
+      if (this.classList.contains('is-invalid') || this.classList.contains('is-valid')) {
+        if (this.value) {
+          this.classList.remove('is-invalid');
+          this.classList.add('is-valid');
+        } else {
+          this.classList.remove('is-valid');
+          this.classList.add('is-invalid');
+        }
+      }
+    });
+
+    // Email validation helper
+    function isValidEmail(email) {
+      const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return re.test(email);
+    }
+  })();
+</script>
