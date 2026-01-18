@@ -19,3 +19,4 @@ const subscriberSchema = new mongoose.Schema({
 });
 // Export the Mongoose model named 'Subscriber' using the defined schema
 export default mongoose.model('Subscriber', subscriberSchema);
+15  

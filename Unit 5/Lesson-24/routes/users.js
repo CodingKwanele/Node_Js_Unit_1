@@ -1,5 +1,3 @@
-// routes/users.js
-// Handles all user-related routes: registration, authentication, profile management
 import express from "express";
 import userController from "../controllers/userController.js";
 
@@ -9,49 +7,40 @@ const router = express.Router();
 // USER LISTING AND REGISTRATION
 // ============================================
 
-// Display all users
-router.get("/users", userController.showUsers);
+// Display all users (protected)
+router.get("/users", userController.ensureAuthenticated, userController.showUsers);
 
-// Show registration form
+// Show registration form (public)
 router.get("/users/new", userController.showCreateUserForm);
 
-// Process new user registration
+// Process new user registration (public)
 router.post("/users/create", userController.createUser, userController.redirectView);
 
 // ============================================
 // AUTHENTICATION
 // ============================================
 
-// Show login form
 router.get("/users/login", userController.showLoginForm);
-
-// Process login
 router.post("/users/login", userController.authenticate);
 
-// Process logout
 router.get("/users/logout", userController.logout, userController.redirectView);
 
 // ============================================
-// PROFILE MANAGEMENT
+// PROFILE MANAGEMENT (protected)
 // ============================================
 
-// Show edit form for specific user
-router.get("/users/:id/edit", userController.showEditUserForm);
+router.get("/users/:id/edit", userController.ensureAuthenticated, userController.showEditUserForm);
 
-// Update specific user
-router.put("/users/:id/update", userController.updateUser, userController.redirectView);
+router.put("/users/:id/update", userController.ensureAuthenticated, userController.updateUser, userController.redirectView);
 
-// Delete specific user
-router.delete("/users/:id/delete", userController.deleteUser, userController.redirectView);
+router.delete("/users/:id/delete", userController.ensureAuthenticated, userController.deleteUser, userController.redirectView);
 
 // ============================================
-// USER RELATIONSHIPS
+// USER RELATIONSHIPS (protected)
 // ============================================
 
-// Link user to course
-router.post("/users/:id/link-course", userController.linkCourse, userController.redirectView);
+router.post("/users/:id/link-course", userController.ensureAuthenticated, userController.linkCourse, userController.redirectView);
 
-// Link user to subscriber by email
-router.post("/users/:id/link-subscriber", userController.linkSubscriberByEmail, userController.redirectView);
+router.post("/users/:id/link-subscriber", userController.ensureAuthenticated, userController.linkSubscriberByEmail, userController.redirectView);
 
 export default router;

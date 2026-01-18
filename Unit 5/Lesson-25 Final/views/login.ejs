@@ -1,0 +1,25 @@
+<section class="hero">
+  <div class="container">
+    <h2>Sign in</h2>
+    <p class="muted">Welcome back. Please sign in to continue.</p>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="card lift" style="max-width:520px;margin:0 auto;">
+      <form action="/users/login" method="POST" novalidate>
+        <div style="margin-bottom:1rem;">
+          <label for="email">Email</label><br>
+          <input id="email" name="email" type="email" required placeholder="you@example.com" />
+        </div>
+        <div style="margin-bottom:1rem;">
+          <label for="password">Password</label><br>
+          <input id="password" name="password" type="password" required placeholder="••••••••" />
+        </div>
+        <button type="submit" class="btn">Sign in</button>
+        <a class="btn" href="/users/new">Create account</a>
+      </form>
+    </div>
+  </div>
+</section>

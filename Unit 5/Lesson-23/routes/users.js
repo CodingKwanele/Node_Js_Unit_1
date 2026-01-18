@@ -1,61 +1,60 @@
 import express from "express";
+import { body, param } from "express-validator";
+import { ensureAuthenticated, ensureGuest } from "../middlewares/auth.js";
 import userController from "../controllers/userController.js";
 
 const router = express.Router();
 
-// LIST users
-router.get("/users", userController.showUsers);
+// Validation middleware
+const validateUserId = [param("id").trim().isMongoId().withMessage("Invalid user ID.")];
 
-// NEW user form
-router.get("/users/new", userController.showCreateUserForm);
+const validateUserCreation = [
+  body("first").trim().notEmpty().withMessage("First name required."),
+  body("last").trim().notEmpty().withMessage("Last name required."),
+  body("email").trim().isEmail().withMessage("Valid email required."),
+  body("password").isLength({ min: 6 }).withMessage("Password must be at least 6 characters."),
+];
 
-// CREATE user
-router.post(
-  "/users",
-  userController.createUser,
-  userController.redirectView
-);
+const validateLogin = [
+  body("email").trim().isEmail().withMessage("Valid email required."),
+  body("password").notEmpty().withMessage("Password required."),
+];
 
-// LOGIN form (GET)  <-- put BEFORE any /users/:id routes
-router.get(
-  "/users/login",
-  userController.showLoginForm
-);
+const validateUserUpdate = [
+  body("first").optional().trim().notEmpty(),
+  body("last").optional().trim().notEmpty(),
+  body("email").optional().trim().isEmail().withMessage("Valid email required."),
+  body("password").optional().isLength({ min: 6 }).withMessage("Password too short."),
+];
 
-// LOGIN submit (POST) <-- also BEFORE any /users/:id routes
-router.post(
-  "/users/login",
-  userController.authenticate,
-  userController.redirectView
-);
+// PUBLIC ROUTES (guest-only)
+router.get("/users/login", ensureGuest, userController.showLoginForm);
+router.post("/users/login", ensureGuest, validateLogin, userController.authenticate, userController.redirectView);
+router.get("/users/new", ensureGuest, userController.showCreateUserForm);
+router.post("/users", ensureGuest, validateUserCreation, userController.createUser, userController.redirectView);
 
-// EDIT user form
-router.get("/users/:id/edit", userController.showEditUserForm);
+// PROTECTED ROUTES (require authentication)
+router.get("/users/logout", ensureAuthenticated, userController.logout, userController.redirectView);
+router.get("/users", ensureAuthenticated, userController.showUsers);
+router.get("/users/:id/edit", ensureAuthenticated, validateUserId, userController.showEditUserForm);
+router.post("/users/:id", ensureAuthenticated, validateUserId, validateUserUpdate, userController.updateUser, userController.redirectView);
+router.post("/users/:id/delete", ensureAuthenticated, validateUserId, userController.deleteUser, userController.redirectView);
 
-// UPDATE user
-router.post(
-  "/users/:id",
-  userController.updateUser,
-  userController.redirectView
-);
-
-// DELETE user
-router.post(
-  "/users/:id/delete",
-  userController.deleteUser,
-  userController.redirectView
-);
-
-// LINK course
+// RELATIONSHIP ROUTES
 router.post(
   "/users/:id/link-course",
+  ensureAuthenticated,
+  validateUserId,
+  [body("courseId").trim().notEmpty().withMessage("Course ID required.")],
   userController.linkCourse,
   userController.redirectView
 );
 
-// LINK subscriber
 router.post(
   "/users/:id/link-subscriber",
+  ensureAuthenticated,
+  validateUserId,
+  [body("email").trim().isEmail().withMessage("Valid email required.")],
   userController.linkSubscriberByEmail,
   userController.redirectView
 );

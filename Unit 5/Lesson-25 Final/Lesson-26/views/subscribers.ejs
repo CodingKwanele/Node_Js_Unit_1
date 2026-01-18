@@ -1,0 +1,36 @@
+<!-- views/subscribers.ejs -->
+<section class="hero">
+  <div class="container">
+    <h2>Join Our Community</h2>
+    <p>Subscribe to get recipes, cooking tips, and updates from My Recipe Web.</p>
+    <a href="/contact" class="btn">Subscribe Now</a>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <% if (!subscribers || subscribers.length === 0) { %>
+      <p>Be the first to join our growing community of food lovers!</p>
+    <% } else { %>
+      <div class="community-stats">
+        <p><strong><%= subscribers.length %></strong>
+          <%= subscribers.length === 1 ? 'person has' : 'people have' %> joined our community
+        </p>
+      </div>
+
+      <div class="recent-members">
+        <h3>Recent Members</h3>
+        <ul class="member-list">
+          <% subscribers.slice(0, 10).forEach(s => { %>
+            <li class="member-item">
+              <strong><%= s.name %></strong>
+              <% if (s.createdAt) { %>
+                <small>Joined <%= new Date(s.createdAt).toLocaleDateString() %></small>
+              <% } %>
+            </li>
+          <% }) %>
+        </ul>
+      </div>
+    <% } %>
+  </div>
+</section>

@@ -1,6 +1,0 @@
-<% if (loggedIn) { %>
-  Logged in as <a href="<%=`/users/${currentUser._id}`%>"><%= currentUser.fullName %></a>
-  &nbsp;|&nbsp; <a href="/users/logout">Log out</a>
-<% } else { %>
-  <a href="/users/login">Log In</a>
-<% } %>

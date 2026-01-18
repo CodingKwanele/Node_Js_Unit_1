@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html>
+<head><title><%= user.fullName %></title></head>
+<body>
+  <h1><%= user.fullName %></h1>
+  <p><strong>Email:</strong> <%= user.email %></p>
+  <p><strong>Zip:</strong> <%= user.zipCode || "-" %></p>
+  <p><strong>Subscriber:</strong> <%= user.subscriberAccount ? user.subscriberAccount.email : "—" %></p>
+  <p><strong>Courses:</strong> <%= (user.courses || []).map(c => c.title).join(", ") || "—" %></p>
+</body>
+</html>

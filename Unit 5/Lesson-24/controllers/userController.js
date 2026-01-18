@@ -50,12 +50,14 @@ const showCreateUserForm = (req, res) => {
 // POST /users — register via Passport
 const createUser = async (req, res, next) => {
   try {
+    // Extract and sanitize form input
     const first = String(req.body.first || "").trim();
     const last = String(req.body.last || "").trim();
     const email = String(req.body.email || "").trim().toLowerCase();
     const zipCodeStr = String(req.body.zipCode || "").trim();
     const password = String(req.body.password || "");
 
+    // Validate all required fields
     const errors = {};
     if (!first) errors.first = "First name is required.";
     if (!last) errors.last = "Last name is required.";
@@ -63,6 +65,7 @@ const createUser = async (req, res, next) => {
     if (!password || password.length < 6) errors.password = "Password must be at least 6 characters.";
     if (zipCodeStr && !isValidZaPostal(zipCodeStr)) errors.zipCode = "Postal code must be 4 digits (ZA).";
 
+    // Return form with errors if validation fails
     if (Object.keys(errors).length) {
       return res.status(400).render("user_new", {
         errors,
@@ -70,17 +73,17 @@ const createUser = async (req, res, next) => {
       });
     }
 
-    // Build user doc — passport-local-mongoose will handle username+hash
+    // Create new user document with sanitized data
     const userDoc = new User({
       name: { first, last },
       email,
       zipCode: zipCodeStr ? Number(zipCodeStr) : undefined,
     });
 
-    // If your User schema sets usernameField: 'email', this treats email as the username
+    // Register user with Passport (hashes password automatically)
     const user = await User.register(userDoc, password);
 
-    // Auto-link subscriber if emails match (case-insensitive query)
+    // Optional: Link to existing subscriber account if email matches
     const sub = await Subscriber.findOne({ email }).lean();
     if (sub) {
       await User.findByIdAndUpdate(
@@ -90,22 +93,25 @@ const createUser = async (req, res, next) => {
       );
     }
 
+    // Success: Flash message and redirect to users list
     req.flash("success", `${first} ${last} created successfully!`);
     res.locals.redirect = "/users";
     return next();
   } catch (e) {
     console.error(e);
-    // Duplicate email (unique index) or already registered
+    // Handle duplicate email error
     if (e?.name === "UserExistsError" || e?.code === 11000) {
       req.flash("error", "A user with this email already exists.");
       res.locals.redirect = "/users/new";
       return next();
     }
+    // Handle other errors
     req.flash("error", `Failed to create user account: ${e.message}`);
     res.locals.redirect = "/users/new";
     return next();
   }
 };
+
 
 // GET /users/login — form
 const showLoginForm = (req, res) => res.render("login");

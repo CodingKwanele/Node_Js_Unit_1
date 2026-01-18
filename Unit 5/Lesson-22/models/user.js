@@ -50,15 +50,22 @@ userSchema.methods.getInfo = function () {
   return `User: ${this.fullName} <${this.email}>`;
 };
 
-// === 🔒 Password Hashing & Comparison ===
+// === Password Hashing & Comparison ===
+// Pre-save middleware that runs before saving a user document
 userSchema.pre("save", async function (next) {
   try {
+    // Check if the password field has been modified; if not, skip hashing
     if (!this.isModified("password")) return next();
+    // Hash the password using bcrypt with a salt rounds of 10
     const hash = await bcrypt.hash(this.password, 10);
+    // Replace the plain text password with the hashed password
     this.password = hash;
+    // Call next() to proceed with the save operation
     next();
   } catch (err) {
+    // Log any errors that occur during the hashing process
     console.error(`Error in hashing password: ${err.message}`);
+    // Pass the error to the next middleware for error handling
     next(err);
   }
 });

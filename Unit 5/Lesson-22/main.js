@@ -47,7 +47,7 @@ app.use(express.static(path.join(__dirname, "public"))); // serve /public
 // ---- Sessions + Flash (must come BEFORE routes that use req.flash) ----
 app.use(
   session({
-    secret: "secret_passcode", // TODO: put in process.env.SESSION_SECRET in production
+    secret: "secret_passcode", 
     resave: false,
     saveUninitialized: false,
     cookie: {

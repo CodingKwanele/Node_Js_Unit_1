@@ -7,6 +7,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from "url";
+// Import the package passport 
 import passport from "passport";
 import session from "express-session";
 import flash from "connect-flash";
@@ -15,6 +16,9 @@ import flash from "connect-flash";
 import subscribersRouter from "./routes/subscribers.js";
 import usersRouter from "./routes/users.js";
 import coursesRouter from "./routes/courses.js";
+import methodOverride from "method-override";
+
+
 
 // Models
 import User from "./models/user.js";
@@ -37,6 +41,11 @@ mongoose
   .connect(MONGO_URL)
   .then(() => console.log(" MongoDB connected"))
   .catch((err) => console.error(" MongoDB connection error:", err));
+
+
+  
+app.use(express.urlencoded({ extended: true }));
+app.use(methodOverride("_method"));
 
 // ---- Core middleware ----
 app.use(express.json());
@@ -65,7 +74,9 @@ app.use(flash());
 passport.use(User.createStrategy());
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
+// Initializes passport 
 app.use(passport.initialize());
+// The method passpor.session tells us to continue with the session, the user is on. 
 app.use(passport.session());
 
 // ---- Locals (after flash + passport) ----
